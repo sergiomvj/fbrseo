@@ -39,7 +39,7 @@ read -p "Deseja iniciar os serviços agora? (y/n) " -n 1 -r
 echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo -e "${YELLOW}🐳 Iniciando containers...${NC}"
-    docker-compose up -d
+    docker-compose -f docker-compose.dev.yml up -d
     
     echo ""
     echo -e "${GREEN}✅ Serviços iniciados!${NC}"
@@ -50,10 +50,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "   Frontend: http://localhost:3000"
     echo ""
     echo "🔍 Verificar logs:"
-    echo "   docker-compose logs -f backend"
+    echo "   docker-compose -f docker-compose.dev.yml logs -f backend"
     echo ""
     echo "🛑 Parar serviços:"
-    echo "   docker-compose down"
+    echo "   docker-compose -f docker-compose.dev.yml down"
     echo ""
     
     # Espera serviços iniciarem
@@ -82,5 +82,5 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo ""
 else
     echo -e "${YELLOW}ℹ️  Setup cancelado. Para iniciar manualmente:${NC}"
-    echo "   docker-compose up -d"
+    echo "   docker-compose -f docker-compose.dev.yml up -d"
 fi

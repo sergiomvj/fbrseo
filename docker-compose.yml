@@ -1,95 +1,83 @@
+version: '3.8'
+
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15-alpine
-    container_name: seo-api-postgres
-    environment:
-      POSTGRES_USER: seo_user
-      POSTGRES_PASSWORD: seo_password
-      POSTGRES_DB: seo_api_db
+  # Nginx Gateway (Reverse Proxy)
+  nginx:
+    image: nginx:alpine
+    container_name: seo-api-gateway
+    restart: always
     ports:
-      - "5433:5432"
+      - "80:80"
+      # - "443:443" # Uncomment if you configure SSL in nginx
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U seo_user" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - frontend
+      - backend
 
-  # Redis Cache
-  redis:
-    image: redis:7-alpine
-    container_name: seo-api-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: seo-api-frontend
+    restart: always
+    expose:
+      - "80"
 
-  # FastAPI Backend
+  # Backend
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: seo-api-backend
-    ports:
-      - "8000:8000"
+    restart: always
+    expose:
+      - "8000"
     environment:
-      - DATABASE_URL=postgresql://seo_user:seo_password@postgres:5432/seo_api_db
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-seo_user}:${POSTGRES_PASSWORD:-seo_password}@postgres:5432/${POSTGRES_DB:-seo_api_db}
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - SECRET_KEY=your-secret-key-change-in-production
-      - DEBUG=True
-    volumes:
-      - ./backend:/app
-      - uploads_data:/tmp/uploads
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-*}
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-  # Celery Worker (opcional - para jobs assíncronos)
-  celery_worker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: seo-api-celery-worker
-    environment:
-      - DATABASE_URL=postgresql://seo_user:seo_password@postgres:5432/seo_api_db
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
     volumes:
-      - ./backend:/app
-    depends_on:
-      - postgres
-      - redis
-    command: celery -A app.tasks.celery_app worker --loglevel=info
+      - uploads_data:/tmp/uploads
 
-  # React Frontend
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: seo-api-frontend
-    ports:
-      - "3005:3000"
+  # Postgres
+  postgres:
+    image: postgres:15-alpine
+    container_name: seo-api-postgres
+    restart: always
     environment:
-      - REACT_APP_API_URL=http://localhost:8000
+      POSTGRES_USER: ${POSTGRES_USER:-seo_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-seo_password}
+      POSTGRES_DB: ${POSTGRES_DB:-seo_api_db}
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    depends_on:
-      - backend
-    command: npm start
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-seo_user}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: seo-api-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
 volumes:
   postgres_data:
