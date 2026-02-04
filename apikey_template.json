@@ -1,0 +1,14 @@
+{
+    "name": "Production Key",
+    "environment": "production",
+    "permissions": [
+        "keywords:read",
+        "keywords:write",
+        "rankings:read",
+        "rankings:write",
+        "backlinks:read",
+        "onpage:read",
+        "competitors:read",
+        "data:import"
+    ]
+}

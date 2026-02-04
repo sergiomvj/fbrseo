@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Sistema Planner",
+        "company": "Minha Empresa",
+        "email": "planner@empresa.com",
+        "rate_limit_per_minute": 120,
+        "rate_limit_per_day": 50000
+    },
+    {
+        "name": "Sistema Blogger",
+        "company": "Minha Empresa",
+        "email": "blogger@empresa.com",
+        "rate_limit_per_minute": 100,
+        "rate_limit_per_day": 40000
+    },
+    {
+        "name": "Sistema Creator",
+        "company": "Minha Empresa",
+        "email": "creator@empresa.com",
+        "rate_limit_per_minute": 100,
+        "rate_limit_per_day": 40000
+    },
+    {
+        "name": "Sistema VideoCreator",
+        "company": "Minha Empresa",
+        "email": "videocreator@empresa.com",
+        "rate_limit_per_minute": 80,
+        "rate_limit_per_day": 30000
+    }
+]
