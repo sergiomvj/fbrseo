@@ -22,7 +22,7 @@ COPY backend/ .
 # Create uploads directory
 RUN mkdir -p /tmp/uploads
 
-EXPOSE 8000
+EXPOSE 80
 
-# Production command
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+# Production command - Running on Port 80 for compatibility
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--workers", "4"]
