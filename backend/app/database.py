@@ -4,12 +4,24 @@ from sqlalchemy.orm import sessionmaker, Session
 from app.config import settings
 
 # Engine do SQLAlchemy
+connect_args = {}
+engine_args = {
+    "pool_pre_ping": True,
+    "echo": settings.DEBUG
+}
+
+if "sqlite" in settings.DATABASE_URL:
+    connect_args["check_same_thread"] = False
+else:
+    # Postgres defaults
+    engine_args["pool_size"] = 10
+    engine_args["max_overflow"] = 20
+
+# Engine do SQLAlchemy
 engine = create_engine(
     settings.DATABASE_URL,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-    echo=settings.DEBUG
+    connect_args=connect_args,
+    **engine_args
 )
 
 # SessionLocal para criar sessões de banco

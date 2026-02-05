@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     """
     
     # Database
-    DATABASE_URL: str = "postgresql://seo_user:seo_password@postgres:5432/seo_api_db"
+    DATABASE_URL: str = "sqlite:///./app.db"
     
     # Redis
     REDIS_URL: str = "redis://redis:6379/0"
