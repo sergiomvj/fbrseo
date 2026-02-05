@@ -9,10 +9,10 @@ class Settings(BaseSettings):
     """
     
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://seo_user:seo_password@postgres:5432/seo_api_db"
     
     # Redis
-    REDIS_URL: str
+    REDIS_URL: str = "redis://redis:6379/0"
     
     # API
     API_V1_PREFIX: str = "/api/v1"
@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     ALLOWED_HOSTS: List[str] = ["*"]
     
     # Security
-    SECRET_KEY: str
+    SECRET_KEY: str = "insecure-default-key-please-change"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
@@ -45,8 +45,8 @@ class Settings(BaseSettings):
     CORS_ORIGINS: List[str] = ["http://localhost:3000"]
     
     # Celery
-    CELERY_BROKER_URL: str
-    CELERY_RESULT_BACKEND: str
+    CELERY_BROKER_URL: str = "redis://redis:6379/0"
+    CELERY_RESULT_BACKEND: str = "redis://redis:6379/0"
     
     # Email
     SMTP_HOST: Optional[str] = None
