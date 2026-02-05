@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     """
     
     # Database
-    DATABASE_URL: str = "sqlite:///./app.db"
+    DATABASE_URL: str = "sqlite:////data/app.db"
     
     # Redis
     REDIS_URL: str = "redis://redis:6379/0"

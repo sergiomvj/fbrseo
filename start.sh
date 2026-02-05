@@ -1,4 +1,11 @@
 #!/bin/bash
+set -e
+
+# Ensure data directory exists and is writable
+if [ ! -d "/data" ]; then
+    echo "📂 Creating /data directory..."
+    mkdir -p /data
+fi
 
 # Start Nginx in background
 echo "🚀 Starting Nginx..."

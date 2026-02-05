@@ -57,6 +57,9 @@ COPY --from=frontend-builder /app/frontend/build /var/www/html
 COPY start.sh .
 RUN chmod +x start.sh
 
+# Persist data
+VOLUME /data
+
 EXPOSE 80
 
 # Environment variables should be passed by Easypanel

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, status
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
@@ -13,6 +14,16 @@ from app.models import auth, domain  # Import para criar tabelas
 async def lifespan(app: FastAPI):
     """Lifecycle events"""
     # Startup
+    # Ensure data directory exists for SQLite
+    if "sqlite" in settings.DATABASE_URL and "/data/" in settings.DATABASE_URL:
+        data_dir = os.path.dirname(settings.DATABASE_URL.replace("sqlite:///", ""))
+        if data_dir and not os.path.exists(data_dir):
+            try:
+                os.makedirs(data_dir, exist_ok=True)
+                print(f"✅ Created data directory: {data_dir}")
+            except Exception as e:
+                print(f"⚠️ Could not create data directory {data_dir}: {e}")
+
     Base.metadata.create_all(bind=engine)
     print("✅ Database tables created")
     yield
