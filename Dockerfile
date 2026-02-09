@@ -32,7 +32,8 @@ RUN rm /etc/nginx/sites-enabled/default
 # Copy our config
 COPY nginx/monolith.conf /etc/nginx/conf.d/default.conf
 # Ensure nginx runs comfortably
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+# Ensure nginx runs comfortably
+# RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Setup Backend
 COPY backend/requirements.txt .
