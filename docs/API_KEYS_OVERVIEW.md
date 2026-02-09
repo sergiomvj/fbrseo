@@ -12,6 +12,8 @@ Documento consolidado com todas as API Keys para integração dos sistemas FBR A
 | **Blogger** | 4 | blogger@fbrapps.com | 100 | 40.000 | [BLOGGER_API_KEY.md](BLOGGER_API_KEY.md) |
 | **Creator** | 5 | creator@fbrapps.com | 100 | 40.000 | [CREATOR_API_KEY.md](CREATOR_API_KEY.md) |
 | **VideoCreator** | 6 | videocreator@fbrapps.com | 80 | 30.000 | [VIDEOCREATOR_API_KEY.md](VIDEOCREATOR_API_KEY.md) |
+| **FACEBRASIL** | 7 | facebrasil@fbrapps.com | 120 | 50.000 | [FACEBRASIL_API_KEY.md](FACEBRASIL_API_KEY.md) |
+| **TVFACEBRASIL** | 8 | tvfacebrasil@fbrapps.com | 120 | 50.000 | [TVFACEBRASIL_API_KEY.md](TVFACEBRASIL_API_KEY.md) |
 
 ---
 
@@ -37,6 +39,16 @@ Documento consolidado com todas as API Keys para integração dos sistemas FBR A
 <sua-api-key-videocreator>
 ```
 
+### Sistema FACEBRASIL
+```
+sk_live_...
+```
+
+### Sistema TVFACEBRASIL
+```
+sk_live_...
+```
+
 ---
 
 ## 🚀 Configuração Rápida
@@ -45,7 +57,7 @@ Documento consolidado com todas as API Keys para integração dos sistemas FBR A
 
 ```env
 # SEO API Configuration
-SEO_API_URL=http://localhost:8000
+SEO_API_URL=http://seo.fbrapps.com:8000
 SEO_API_KEY=<sua-api-key-aqui>
 ```
 
@@ -171,7 +183,9 @@ $apiKeys = @(
     @{name="Planner"; key="<sua-api-key-planner>"},
     @{name="Blogger"; key="<sua-api-key-blogger>"},
     @{name="Creator"; key="<sua-api-key-creator>"},
-    @{name="VideoCreator"; key="<sua-api-key-videocreator>"}
+    @{name="VideoCreator"; key="<sua-api-key-videocreator>"},
+    @{name="FACEBRASIL"; key="sk_live_..."},
+    @{name="TVFACEBRASIL"; key="sk_live_..."}
 )
 
 foreach ($item in $apiKeys) {

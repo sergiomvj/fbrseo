@@ -61,6 +61,10 @@ class Settings(BaseSettings):
     CRAWLER_MAX_CONCURRENT: int = 10
     CRAWLER_DELAY_SECONDS: float = 1.0
     
+    # Firecrawl
+    FIRECRAWL_API_URL: Optional[str] = None
+    FIRECRAWL_API_KEY: Optional[str] = None
+    
     # Storage
     UPLOAD_DIR: str = "/tmp/uploads"
     MAX_UPLOAD_SIZE_MB: int = 50
