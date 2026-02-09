@@ -39,7 +39,7 @@ COPY nginx/monolith.conf /etc/nginx/conf.d/default.conf
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY backend/ ./app
+COPY backend/ .
 # Move app content up one level if needed, or adjust imports. 
 # Our backend/ structure logic:
 # Repo: backend/app -> Container: /app/app
