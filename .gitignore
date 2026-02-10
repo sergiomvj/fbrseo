@@ -47,3 +47,9 @@ alembic/versions/*.py
 
 /docs
 
+# Credentials
+api_keys_generated.json
+clients_created.json
+apikey_template.json
+*.json
+
